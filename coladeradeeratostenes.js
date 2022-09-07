@@ -17,8 +17,10 @@ for(let i = 2;i<=maxDivisor;i++) {
     iteraciones++;
 }
 
-valores.forEach((elements, index)=> {
-    if(elements) primos.push(index+2);
-});
+for(let i = 2;i<1000;i++) {
+    if(valores[i] == true) {
+        primos.push(i);
+    }
+}
 
 console.log(`Los numeros primos son: ${primos}`);
