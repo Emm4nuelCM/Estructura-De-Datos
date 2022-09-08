@@ -1,0 +1,222 @@
+<script>
+//fieldset = cuadro o campo
+//legend = Nombre del campo
+
+//h1-h5 = Tamaño texto
+
+//div = Crea secciones o agrupa contenidos
+//id = Nombra al elemento y lo diferencia de los demas
+
+//table = Contenedor principal
+//tr = Filas contenedoras de celdas
+//td = Representando las celdas
+//th = Celdas de encabezado
+//input = Formulario, recibe datos del usuario
+//type = Tipo de control a mostrar
+//style = Especifica informacion de estilo
+//colspan = Permite "fusionar" celdas consecutivas de una misma fila
+//align = Alinea los valores
+//button = Crea botones marcadores
+//onclick = Ejecuta una funcion especificada cuando el boton es clickeado
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Inventario</title>
+    <style>
+        #todosLosProductos div{
+            float:left;
+            border:solid 2px green;
+            margin:3px;
+            width:auto;
+            height: auto;
+            padding:5px;
+        }
+
+        #divPagina{
+            width:80%;
+            margin:0 auto;
+            border: solid 1px black;
+            padding-left: 5px;
+            border-radius: 5px;
+            
+        }
+    </style>
+
+    <script language="JavaScript">
+        function producto() {
+            this.codigo = "";
+        }
+        var productos = new Array();
+        //var para ver la variable en todo el documento
+
+        function gi (id) {
+            return document.getElementById(id);
+            //Obtiene el elemento con el id dado
+        }
+        function agregarProducto() {
+            gi("divFormulario").style.display="inline";
+            //style.display = Cambia el estilo del elemento
+            //inline = Mostrar
+            gi("txtCodigo").focus();
+        }
+
+        function ocultarForm() {
+            gi("divFormulario").style.display="none";
+            gi("txtCodigo").value = "";
+            gi("txtNombre").value = "";
+            gi("txtCantidad").value = "";
+            gi("txtCosto").value = "";
+
+            //none = Ocultar
+        }
+        function guardar() {
+            prod = new Product();
+            prod.code = gi("txtCodigo").value;
+            prod.name = gi("txtNombre").value;
+            prod.amount = gi("txtCantidad").value;
+            prod.cost = gi("txtCosto").value;
+            productos[productos.length] = prod;
+            ocultarForm();
+            mostrarProductos();
+        }
+
+        function borrarConfirmando(id_producto) {
+            if(confirm("Esta seguro que quiere quitar este producto")) {
+                borrar(id_producto);
+            }
+        }
+
+        function borrar(id_producto) {
+            
+                newProd = new Array();
+            for(let i = 0; i<productos.length;i++) {
+                if(i != id_producto) {
+                    newProd[newProd.length] = productos[i];
+                }
+            }
+            productos = newProd;
+            mostrarProductos();
+        
+            
+        }
+        function editar(id_producto) {
+            prod = productos[id_producto];
+            borrar(id_producto);
+            agregarProducto(id_producto);
+            gi("txtCodigo").value = prod.code;
+            gi("txtNombre").value = prod.name;
+            gi("txtCantidad").value = prod.amount;
+            gi("txtCosto").value = prod.cost;
+        }
+
+        class Product{
+        constructor(code, name, amount, cost) {
+            this.code = code;
+            this.name = name;
+            this.amount = amount;
+            this.cost = cost;
+        }
+
+        info() {
+            return `${this.code} ${this.name} ${this.amount} ${this.cost}`
+            }   
+        }   
+
+        function mostrarProductos() {
+            gi("todosLosProductos").innerHTML = "";
+            for(let i = 0; i<productos.length;i++) {
+                prod = productos[i];
+                div = document.createElement("div");
+                div.setAttribute("class", "producto");
+                div.innerHTML = 
+                "Codigo: " + prod.code + "<br>" +
+                "Nombre: " + prod.name + "<br>" +
+                "Cantidad: " + prod.amount + "<br>" +
+                "Costo: " + prod.cost + "<br>" +
+                "<button onclick = 'editar("+i+")'>Edit</button><button onclick = 'borrarConfirmando("+i+")'>Del</button>"
+                
+                gi("todosLosProductos").appendChild(div);
+            }
+        }
+    </script>
+
+</head>
+
+<body>
+    <div id="divPagina">
+        <div id = "divBAnner">
+        </div>
+
+        <div id = "divCentro">
+
+            <h1>Control de Inventario</h1>
+            
+            <div id="Panel_Acciones">
+                <button onclick="agregarProducto();">Agregar Producto</button>
+                <button onclick="mostrarProductos();">Actualizar</button>
+            </div>
+
+            <div id="divFormulario" style="display:none;">
+                <table>
+                    <tr>
+                        <th>Codigo:</th>
+                        <td><input type="text" id="txtCodigo"></td>
+                    </tr>
+                    <tr>
+                        <th>Nombre:</th>
+                        <td><input type="text" id="txtNombre"></td>
+                    </tr>
+                    <tr>
+                        <th>Cantidad:</th>
+                        <td><input type="text" id="txtCantidad"></td>
+                    </tr>
+                    <tr>
+                        <th>Costo:</th>
+                        <td><input type="text" id="txtCosto"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <button onclick="guardar();">Guardar</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>
+                ELIMINAR<br>
+            </h3>
+            <h4>
+                Codigo: <input name=deleteCode><br>
+            </h4> 
+
+            <h4>
+                MODIFICAR<br> 
+                Codigo: <input name=editCode><br>
+            </h4> 
+
+            <div>
+                <fieldset>
+                    <legend>Productos Existentes</legend>
+                    <div id = "todosLosProductos"></div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+    
+    </script>
+</body>
+
+
+
+
+
+
+
+
+
+
+</html>
