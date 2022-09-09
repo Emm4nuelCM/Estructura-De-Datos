@@ -56,6 +56,7 @@
             <div id="Panel_Acciones">
                 <button onclick="agregarProducto();">Agregar Producto</button>
                 <button onclick="eliminarProducto();">Eliminar Producto</button>
+                <button onclick="editarProducto();">Modificar Producto</button>
                 <button onclick="mostrarProductos();">Listado</button>
             </div>
             <div id="divFormAdd" style="display:none;">
@@ -91,7 +92,20 @@
                     </tr>
                     <tr>
                         <td colspan="2" align="center">
-                            <button onclick="eliminarConfirmando();">Confirmar</button>
+                            <button onclick="eliminarConfirmando(gi('delCodigo').value);">Confirmar</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="divFormEdit" style="display:none">
+                <table>
+                    <tr>
+                        <th>Codigo:</th>
+                        <td><input type="text" id="editCodigo"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <button onclick="editar();">Confirmar</button>
                         </td>
                     </tr>
                 </table>
@@ -135,6 +149,7 @@
         gi("txtCodigo").focus();
         //focus = poner puntero automaticamente en un cuadro
         gi("divFormDel").style.display="none";
+        gi("divFormEdit").style.display="none";
     }
     function guardar() {
         prod = new Product();
@@ -143,22 +158,24 @@
         prod.amount = gi("txtCantidad").value;
         prod.cost = gi("txtCosto").value;
         productos[productos.length] = prod;
-        ocultarForm();
+        clearForm();
     }
 
     function eliminarProducto() {
         gi("divFormDel").style.display="inline";
         gi("delCodigo").focus();
         gi("divFormAdd").style.display="none";
+        gi("divFormEdit").style.display="none";
     }
     function eliminarConfirmando(id_producto) {
         if(confirm("Esta seguro que quiere quitar este producto")) {
             eliminar(id_producto);
+            clearForm();
         }
     }
-    function eliminar() {
+    function eliminar(id_producto) {
         update = new Array();
-        code = gi("delCodigo").value;
+        code = id_producto;
         for(let i=0;i<productos.length;i++) {
             prod = productos[i];
             if(code != prod.code) {
@@ -168,14 +185,25 @@
         productos = update;
     }
 
-    function editar(id_producto) {
-        prod = productos[id_producto];
-        borrar(id_producto);
-        agregarProducto(id_producto);
-        gi("txtCodigo").value = prod.code;
-        gi("txtNombre").value = prod.name;
-        gi("txtCantidad").value = prod.amount;
-        gi("txtCosto").value = prod.cost;
+    function editarProducto() {
+        gi("divFormEdit").style.display="inline";
+        gi("editCodigo").focus();
+        gi("divFormAdd").style.display="none";
+        gi("divFormDel").style.display="none";
+    }
+    function editar() {
+        code = gi("editCodigo").value;
+        for(let i=0;i<productos.length;i++) {
+            prod = productos[i];
+            if(code == prod.code) {
+                agregarProducto(gi("editCodigo").value);
+                gi("txtCodigo").value = prod.code;
+                gi("txtNombre").value = prod.name;
+                gi("txtCantidad").value = prod.amount;
+                gi("txtCosto").value = prod.cost;
+                eliminar(gi("editCodigo").value);
+            }
+        }
     }
 
     function mostrarProductos() {
@@ -194,13 +222,15 @@
         }
     }
 
-    function ocultarForm() {
-        gi("divFormAdd").style.display="none";
+    function clearForm() {
+        //gi("divFormAdd").style.display="none";
         gi("txtCodigo").value = "";
         gi("txtNombre").value = "";
         gi("txtCantidad").value = "";
         gi("txtCosto").value = "";
         //none = Ocultar
+        gi("delCodigo").value = "";
+        gi("editCodigo").value = "";
     }
     </script>
 </html>
