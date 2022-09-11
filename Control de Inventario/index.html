@@ -27,8 +27,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Control de Inventario</title>
 </head>
-
+<body style = "background-color: whitesmoke">
 <style>
+   
     #todosLosProductos div{
         float:left;
         border:solid 2px green;
@@ -48,16 +49,16 @@
 </style>
 
 <body>
-    <div id="divPagina">
+    <div id="divPagina" align="center">
         <div id = "divBAnner">
         </div>
         <div id = "divCentro">
-            <h1>Control de Inventario</h1>
+            <h1 align="center">Control de Inventario</h1>
             <div id="Panel_Acciones">
                 <button onclick="agregarProducto();">Agregar Producto</button>
                 <button onclick="eliminarProducto();">Eliminar Producto</button>
                 <button onclick="editarProducto();">Modificar Producto</button>
-                <button onclick="mostrarProductos();">Listado</button>
+                <button onclick="show();">Listado</button>
             </div>
             <div id="divFormAdd" style="display:none;">
                 <table>
@@ -79,7 +80,7 @@
                     </tr>
                     <tr>
                         <td colspan="2" align="center">
-                            <button onclick="guardar();">Guardar</button>
+                            <button onclick="convert();">Agregar</button>
                         </td>
                     </tr>
                 </table>
@@ -92,7 +93,7 @@
                     </tr>
                     <tr>
                         <td colspan="2" align="center">
-                            <button onclick="eliminarConfirmando(gi('delCodigo').value);">Confirmar</button>
+                            <button onclick="eliminarConfirmando(gi('delCodigo').value);">Eliminar</button>
                         </td>
                     </tr>
                 </table>
@@ -105,7 +106,7 @@
                     </tr>
                     <tr>
                         <td colspan="2" align="center">
-                            <button onclick="editar();">Confirmar</button>
+                            <button onclick="editar();">Editar</button>
                         </td>
                     </tr>
                 </table>
@@ -120,28 +121,20 @@
     </div>
 </body>
 
-<script language="JavaScript">
-    var productos = new Array();
-    //var para ver la variable en todo el documento
+<script src="./producto.js"></script>
+<script src="./inventario.js"></script>
+<script language="JavaScript" >
 
-    class Product{
-    constructor(code, name, amount, cost) {
-        this.code = code;
-        this.name = name;
-        this.amount = amount;
-        this.cost = cost;
-    }
-
-    info() {
-        return `${this.code} ${this.name} ${this.amount} ${this.cost}`
-        }   
-    }   
-
+    //Crea Inventario
+    let inventario = new Inventory();
+    
+    //Obtiene la id del atributo
     function gi (id) {
         return document.getElementById(id);
         //Obtiene el elemento con el id dado
     }
 
+    //Obtiene datos y agrega el producto al inventario
     function agregarProducto() {
         gi("divFormAdd").style.display="inline";
         //style.display = Cambia el estilo del elemento
@@ -151,38 +144,52 @@
         gi("divFormDel").style.display="none";
         gi("divFormEdit").style.display="none";
     }
-    function guardar() {
+    function convert() {
         prod = new Product();
         prod.code = gi("txtCodigo").value;
         prod.name = gi("txtNombre").value;
         prod.amount = gi("txtCantidad").value;
         prod.cost = gi("txtCosto").value;
-        productos[productos.length] = prod;
+        inventario.guardar(prod);
         clearForm();
     }
 
+    //Mostrar los productos
+    function show() {
+        gi("todosLosProductos").innerHTML = "";
+        let productos = inventario.listar();
+        for(let i=0;i<productos.length;i++) {
+            let producto = productos[i];
+            div = document.createElement("div");
+            //div.setAttribute("class", "producto");
+            div.innerHTML = 
+            producto.info();
+            gi("todosLosProductos").appendChild(div);
+        }
+    }
+
+    //Elimina un producto con el codigo
     function eliminarProducto() {
         gi("divFormDel").style.display="inline";
         gi("delCodigo").focus();
         gi("divFormAdd").style.display="none";
         gi("divFormEdit").style.display="none";
     }
-    function eliminarConfirmando(id_producto) {
+    function eliminarConfirmando(codigo) {
         if(confirm("Esta seguro que quiere quitar este producto")) {
-            eliminar(id_producto);
+            eliminarCode(codigo);
             clearForm();
         }
     }
-    function eliminar(id_producto) {
-        update = new Array();
-        code = id_producto;
+    function eliminarCode(codigo) {
+        code = codigo;
+        productos = inventario.listar();
         for(let i=0;i<productos.length;i++) {
-            prod = productos[i];
-            if(code != prod.code) {
-               update[update.length] = productos[i];
+            producto = productos[i];
+            if(code == producto.code) {
+                inventario.eliminar(i);
             }
         }
-        productos = update;
     }
 
     function editarProducto() {
@@ -190,36 +197,6 @@
         gi("editCodigo").focus();
         gi("divFormAdd").style.display="none";
         gi("divFormDel").style.display="none";
-    }
-    function editar() {
-        code = gi("editCodigo").value;
-        for(let i=0;i<productos.length;i++) {
-            prod = productos[i];
-            if(code == prod.code) {
-                agregarProducto(gi("editCodigo").value);
-                gi("txtCodigo").value = prod.code;
-                gi("txtNombre").value = prod.name;
-                gi("txtCantidad").value = prod.amount;
-                gi("txtCosto").value = prod.cost;
-                eliminar(gi("editCodigo").value);
-            }
-        }
-    }
-
-    function mostrarProductos() {
-        gi("todosLosProductos").innerHTML = "";
-        for(let i = 0; i<productos.length;i++) {
-            prod = productos[i];
-            div = document.createElement("div");
-            div.setAttribute("class", "producto");
-            div.innerHTML = 
-            "Codigo: " + prod.code + "<br>" +
-            "Nombre: " + prod.name + "<br>" +
-            "Cantidad: " + prod.amount + "<br>" +
-            "Costo: " + prod.cost + "<br>" +
-            "<button onclick = 'editar("+i+")'>Edit</button>"
-            gi("todosLosProductos").appendChild(div);
-        }
     }
 
     function clearForm() {

@@ -1,37 +1,41 @@
+
 class Inventory{
     constructor() {
         this.list = new Array();
     }
-}
 
-class Product{
-    constructor(code, name, amount, cost) {
-        this.code = code;
-        this.name = name;
-        this.amount = amount;
-        this.cost = cost;
+    listar() {
+        return this.list;
     }
 
-    info() {
-        return `${this.code} ${this.name} ${this.amount} ${this.cost}`
+    guardar(producto) {
+        this.list.push(producto);
+    }
+    
+    eliminar(posicion) {
+        let update = new Array();
+        let pos = posicion;
+        for(let i=0;i<this.list.length;i++) {
+            let producto = this.list[i];
+            if(pos != i) {
+               update.push(producto);
+            }
+        }
+        this.list = update;
+    }
+
+    editar() {
+        code = gi("editCodigo").value;
+        for(let i=0;i<productos.length;i++) {
+            prod = productos[i];
+            if(code == prod.code) {
+                agregarProducto(gi("editCodigo").value);
+                gi("txtCodigo").value = prod.code;
+                gi("txtNombre").value = prod.name;
+                gi("txtCantidad").value = prod.amount;
+                gi("txtCosto").value = prod.cost;
+                eliminar(gi("editCodigo").value);
+            }
+        }
     }
 }
-let test = new Product(2020, "Agua", 2, 10);
-
-console.log(test.info());
-
-
-addProduct(Product) {
-    this.list.push(Product);
-}
-
-/*
-deleteCode(code) {
-
-}
-
-updateCode(code) {
-
-}
-
-*/
