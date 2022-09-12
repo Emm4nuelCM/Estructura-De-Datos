@@ -4,30 +4,22 @@ class Dado {
     }
 }
 
-
 class Tablero {
     constructor() {
-        this.tablero = (new Array(100-1)).fill(0);
-        this.escaleras=[5,43,50,65,70,85];//Bajan a [55,80,69,95,92,94] ordenadamente
-        this.serpientes=[17,28,39,55,78,88,99];//Bajan a [3,14,21,47,64,74,81] ordenadamente
+        this.tablero = (new Array(100)).fill(0);
+        //ESCALERAS
+        this.tablero[5-1]=1, this.tablero[43-1]=1, this.tablero[50-1]=1, this.tablero[65-1]=1, this.tablero[70-1]=1, this.tablero[85-1]=1;//Suben a [55,80,69,95,92,94] ordenadamente
+        //SERPIENTES
+        this.tablero[17-1]=2, this.tablero[28-1]=2, this.tablero[39-1]=2, this.tablero[55-1]=2, this.tablero[78-1]=2, this.tablero[88-1]=2, this.tablero[99-1]=2;//Bajan a [3,14,21,47,64,74,81] ordenadamente
     }
     
-    
-    comprobar() {
-        
-        for(let i=0;i<this.escaleras.length-1;i++) {
-            if(player1.position==this.escaleras[i]) {
-                player1.position=this.escaleras[i+1];
-                console.log(`Jugador 1 Cayo en escalera, sube hasta ${this.escaleras[i+1]}`);
-            } else if(player2.position==this.escaleras[i]) {
-                        player2.position=this.escaleras[i+1];
-                        console.log(`Jugador 2 Cayo en escalera, sube hasta ${this.escaleras[i+1]}`);
-            }
-        }
+    comprobar(posicion) {
+        let casilla = this.tablero[posicion-1];
+        return casilla;
     }
 }
 let tablero = new Tablero();
-console.log(tablero.tablero);
+
 class Player {
     constructor() {
         this.position = 0;
@@ -39,7 +31,54 @@ class Player {
         let lanzar = dado.lanzar();
         this.result=lanzar;
         this.position+=lanzar;
-        tablero.comprobar();
+        //SUBIR ESCALERA
+        if(tablero.comprobar(this.position) == 1) {
+            if(this.position == 5) {
+                this.position = 55;
+                console.log(`Cayo en escalera y sube hasta ${this.position}`);
+            } else if(this.position == 43) {
+                this.position = 80;
+                console.log(`Cayo en escalera y sube hasta ${this.position}`);
+            } else if(this.position == 50) {
+                this.position = 69;
+                console.log(`Cayo en escalera y sube hasta ${this.position}`);
+            } else if(this.position == 65) {
+                this.position = 95;
+                console.log(`Cayo en escalera y sube hasta ${this.position}`);
+            } else if(this.position == 70) {
+                this.position = 92;
+                console.log(`Cayo en escalera y sube hasta ${this.position}`);
+            } else if(this.position == 85) {
+                this.position = 94;
+                console.log(`Cayo en escalera y sube hasta ${this.position}`);
+            }
+        }
+
+        //BAJAR SERPIENTE
+        if(tablero.comprobar(this.position) == 2) {
+            if(this.position == 17) {
+                this.position = 3;
+                console.log(`Cayo en serpiente y baja hasta ${this.position}`);
+            } else if(this.position == 28) {
+                this.position = 14;
+                console.log(`Cayo en serpiente y baja hasta ${this.position}`);
+            } else if(this.position == 39) {
+                this.position = 21;
+                console.log(`Cayo en serpiente y baja hasta ${this.position}`);
+            } else if(this.position == 55) {
+                this.position = 47;
+                console.log(`Cayo en serpiente y baja hasta ${this.position}`);
+            } else if(this.position == 78) {
+                this.position = 64;
+                console.log(`Cayo en serpiente y baja hasta ${this.position}`);
+            } else if(this.position == 88) {
+                this.position = 74;
+                console.log(`Cayo en serpiente y baja hasta ${this.position}`);
+            } else if(this.position == 99) {
+                this.position = 81;
+                console.log(`Cayo en serpiente y baja hasta ${this.position}`);
+            }
+        }
     }
 }
 
