@@ -1,25 +1,18 @@
+//Guardar Triangulos y su area
 class Triangulo {
     constructor(base, altura) {
         this.base = base;
         this.altura = altura;
         this.area = (this.altura*this.base)/2;
     }
-    _getArea() {
+    getArea() {
         return this.area;
     }
 }
-
-//let triangulos = [];
-let nti= new Triangulo(20, 10);
-console.log(nti);
-
-
-
-for(let i=1, inf=1; i<=5;i++, inf+2) {
-    let s=4;
-    let form=[];
-
-};
+let triangulos = new Array();
+let nti = new Triangulo(20, 10);
+triangulos.push(nti);
+console.log(triangulos);
 
 function sumaDivs(numero) {
     let suma=0;

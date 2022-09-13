@@ -24,33 +24,35 @@ class Player {
     constructor() {
         this.position = 0;
         this.result = 0;
+        this.casilla = 0;
     }
     
     avanzar() {
         let dado = new Dado();
         let lanzar = dado.lanzar();
+        this.casilla = 0;
         this.result=lanzar;
         this.position+=lanzar;
         //SUBIR ESCALERA
         if(tablero.comprobar(this.position) == 1) {
             if(this.position == 5) {
                 this.position = 55;
-                console.log(`Cayo en escalera y sube hasta ${this.position}`);
+                this.casilla = 1;
             } else if(this.position == 43) {
                 this.position = 80;
-                console.log(`Cayo en escalera y sube hasta ${this.position}`);
+                this.casilla = 1;
             } else if(this.position == 50) {
                 this.position = 69;
-                console.log(`Cayo en escalera y sube hasta ${this.position}`);
+                this.casilla = 1;
             } else if(this.position == 65) {
                 this.position = 95;
-                console.log(`Cayo en escalera y sube hasta ${this.position}`);
+                this.casilla = 1;
             } else if(this.position == 70) {
                 this.position = 92;
-                console.log(`Cayo en escalera y sube hasta ${this.position}`);
+                this.casilla = 1;
             } else if(this.position == 85) {
                 this.position = 94;
-                console.log(`Cayo en escalera y sube hasta ${this.position}`);
+                this.casilla = 1;
             }
         }
 
@@ -58,26 +60,35 @@ class Player {
         if(tablero.comprobar(this.position) == 2) {
             if(this.position == 17) {
                 this.position = 3;
-                console.log(`Cayo en serpiente y baja hasta ${this.position}`);
+                this.casilla = 2;
             } else if(this.position == 28) {
                 this.position = 14;
-                console.log(`Cayo en serpiente y baja hasta ${this.position}`);
+                this.casilla = 2;
             } else if(this.position == 39) {
                 this.position = 21;
-                console.log(`Cayo en serpiente y baja hasta ${this.position}`);
+                this.casilla = 2;
             } else if(this.position == 55) {
                 this.position = 47;
-                console.log(`Cayo en serpiente y baja hasta ${this.position}`);
+                this.casilla = 2;
             } else if(this.position == 78) {
                 this.position = 64;
-                console.log(`Cayo en serpiente y baja hasta ${this.position}`);
+                this.casilla = 2;
             } else if(this.position == 88) {
                 this.position = 74;
-                console.log(`Cayo en serpiente y baja hasta ${this.position}`);
+                this.casilla = 2;
             } else if(this.position == 99) {
                 this.position = 81;
-                console.log(`Cayo en serpiente y baja hasta ${this.position}`);
+                this.casilla = 2;
             }
+        }
+    }
+
+    //Mostarar mensaje de subir o bajar
+    show() {
+        if(this.casilla == 1) {
+            console.log(`Cayo en escalera y sube hasta ${this.position}`);
+        } else if(this.casilla == 2) {
+            console.log(`Cayo en serpiente y baja hasta ${this.position}`);
         }
     }
 }
@@ -86,11 +97,25 @@ let player1 = new Player(), player2 = new Player();
 do {
     player1.avanzar();
     console.log(`Jugador 1 avanza ${player1.result} casillas`);
-    console.log(`Jugador 1 esta en la casilla ${player1.position}`);
+    if(player1.casilla == 1 || player1.casilla == 2) {
+        player1.show();
+        console.log("                    ");
+    } else {
+        console.log(`Jugador 1 esta en la casilla ${player1.position}`);
+        console.log("                    ");
+    }
+    
     player2.avanzar();
     console.log(`Jugador 2 avanza ${player2.result} casillas`);
-    console.log(`Jugador 2 esta en la casilla ${player2.position}`);
+    if(player2.casilla == 1 || player2.casilla == 2) {
+        player2.show();
+        console.log("                    ");
+    } else {
+        console.log(`Jugador 2 esta en la casilla ${player2.position}`);
+        console.log("                    ");
+    }
 
+    //Detener el juego cuando uno llegue a 100
     if(player1.position >=100) {
         console.log(`Jugador 1 Gana con ${player1.position} puntos`);
         console.log(`Jugador 2 obtuvo ${player2.position} puntos`);
