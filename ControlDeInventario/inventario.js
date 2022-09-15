@@ -28,28 +28,26 @@ class Inventory{
         this.list.length = this.list.length - 1;
     }
 
-    find(posicion) {
-        let pos = posicion;
+    find(codigo) {
+        let code = codigo;
         for(let i = 0; i < this.list.length; i++) {
-            let producto = this.list[i];
-            if(pos == i) {
-                return producto;
+            let product = this.list[i];
+            if(code == product.code) {
+                return product;
+            } else {
+                return null;
             }
         }
     }
     
-    
-    editar() {
-        code = gi("editCodigo").value;
-        for(let i=0;i<productos.length;i++) {
-            prod = productos[i];
-            if(code == prod.code) {
-                agregarProducto(gi("editCodigo").value);
-                gi("txtCodigo").value = prod.code;
-                gi("txtNombre").value = prod.name;
-                gi("txtCantidad").value = prod.amount;
-                gi("txtCosto").value = prod.cost;
-                eliminar(gi("editCodigo").value);
+    edit(codigo) {
+        let code = codigo;
+        for(let i=0;i<this.list.length;i++) {
+            let product = this.list[i];
+            if(code == product.code) {
+                return product;
+            } else {
+                return null;
             }
         }
     }

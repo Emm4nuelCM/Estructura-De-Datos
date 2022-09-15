@@ -57,6 +57,7 @@
             <div id="Panel_Acciones">
                 <button onclick="addForm();">Agregar Producto</button>
                 <button onclick="delForm();">Eliminar Producto</button>
+                <button onclick="editForm();">Editar Producto</button>
                 <button onclick="show();">Listado</button>
                 <button onclick="findForm();">Buscar</button>
             </div>
@@ -106,7 +107,7 @@
                     </tr>
                     <tr>
                         <td colspan="2" align="center">
-                            <button onclick="editar();">Editar</button>
+                            <button onclick="edit(gi('editCodigo').value);">Editar</button>
                         </td>
                     </tr>
                 </table>
@@ -194,35 +195,26 @@
         }
     }
 
-    //Buscar un producto
-    function findForm() {
-        gi("divFormFind").style.display="inline";
-        gi("findCodigo").focus();
-        gi("divFormAdd").style.display="none";
-        gi("divFormEdit").style.display="none";
-        gi("divFormDel").style.display="none";
-    }
-    function find(codigo) {
-        code = codigo;
-        productos = inventario.listar();
-        for(let i=0;i<productos.length;i++) {
-            producto = productos[i];
-            if(code == producto.code) {
-                datos = inventario.find(i);
-                if(confirm(`Se encontro este articulo:
-                ${datos.info()}`)) {
-                    clearForm();
-                }
-            }
-        }
-    }
-
-    function editarProducto() {
+    //EDITAR PRODUCTO
+    function editForm() {
         gi("divFormEdit").style.display="inline";
         gi("editCodigo").focus();
         gi("divFormAdd").style.display="none";
         gi("divFormDel").style.display="none";
         gi("divFormFind").style.display="none";
+    }
+    function edit(codigo) {
+       product = inventario.edit(codigo);
+       if(product == null) {
+        confirm("No se encontro el articulo");
+       } else {
+            addForm(gi("editCodigo").value);
+            gi("txtCodigo").value = product.code;
+            gi("txtNombre").value = product.name;
+            gi("txtCantidad").value = product.amount;
+            gi("txtCosto").value = product.cost;
+            del(gi("editCodigo").value);
+       }
     }
 
     //Mostrar los productos
@@ -236,6 +228,24 @@
             div.innerHTML = 
             producto.info();
             gi("todosLosProductos").appendChild(div);
+        }
+    }
+
+    //Buscar un producto
+    function findForm() {
+        gi("divFormFind").style.display="inline";
+        gi("findCodigo").focus();
+        gi("divFormAdd").style.display="none";
+        gi("divFormEdit").style.display="none";
+        gi("divFormDel").style.display="none";
+    }
+    function find(codigo) {
+        product = inventario.find(codigo);
+        if(product == null) {
+            confirm("Producto no encontrado");
+        } else {
+            confirm(`Se encontro este producto:
+            ${product.info()}`);
         }
     }
 
