@@ -59,6 +59,7 @@
                 <button onclick="delForm();">Eliminar Producto</button>
                 <button onclick="editForm();">Editar Producto</button>
                 <button onclick="show();">Listado</button>
+                <button onclick="showInvert();">Listado Inverso</button>
                 <button onclick="findForm();">Buscar</button>
             </div>
             <div id="divFormAdd" style="display:none;">
@@ -221,6 +222,20 @@
     function show() {
         gi("todosLosProductos").innerHTML = "";
         let productos = inventario.listar();
+        for(let i=0;i<productos.length;i++) {
+            let producto = productos[i];
+            div = document.createElement("div");
+            //div.setAttribute("class", "producto");
+            div.innerHTML = 
+            producto.info();
+            gi("todosLosProductos").appendChild(div);
+        }
+    }
+
+    //Mostrar los  INVERTIDOS
+    function showInvert() {
+        gi("todosLosProductos").innerHTML = "";
+        let productos = inventario.listInvert();
         for(let i=0;i<productos.length;i++) {
             let producto = productos[i];
             div = document.createElement("div");
