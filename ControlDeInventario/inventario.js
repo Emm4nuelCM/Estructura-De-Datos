@@ -8,22 +8,37 @@ class Inventory{
         return this.list;
     }
 
-    guardar(producto) {
+    add(producto) {
         this.list.push(producto);
     }
     
-    eliminar(posicion) {
-        let update = new Array();
+    del(posicion) {
         let pos = posicion;
         for(let i=0;i<this.list.length;i++) {
             let producto = this.list[i];
-            if(pos != i) {
-               update.push(producto);
+            if(this.list.length == 1) {
+                this.list = [];
+            } else {
+                if(pos != i) {
+                    this.list[i-1]=producto;
+                }
             }
         }
-        this.list = update;
+        //Elimina la ultima posicion del vector
+        this.list.length = this.list.length - 1;
     }
 
+    find(posicion) {
+        let pos = posicion;
+        for(let i = 0; i < this.list.length; i++) {
+            let producto = this.list[i];
+            if(pos == i) {
+                return producto;
+            }
+        }
+    }
+    
+    
     editar() {
         code = gi("editCodigo").value;
         for(let i=0;i<productos.length;i++) {

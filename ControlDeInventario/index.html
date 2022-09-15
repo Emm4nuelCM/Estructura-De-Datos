@@ -55,10 +55,10 @@
         <div id = "divCentro">
             <h1 align="center">Control de Inventario</h1>
             <div id="Panel_Acciones">
-                <button onclick="agregarProducto();">Agregar Producto</button>
-                <button onclick="eliminarProducto();">Eliminar Producto</button>
-                <button onclick="editarProducto();">Modificar Producto</button>
+                <button onclick="addForm();">Agregar Producto</button>
+                <button onclick="delForm();">Eliminar Producto</button>
                 <button onclick="show();">Listado</button>
+                <button onclick="findForm();">Buscar</button>
             </div>
             <div id="divFormAdd" style="display:none;">
                 <table>
@@ -80,7 +80,7 @@
                     </tr>
                     <tr>
                         <td colspan="2" align="center">
-                            <button onclick="convert();">Agregar</button>
+                            <button onclick="add();">Agregar</button>
                         </td>
                     </tr>
                 </table>
@@ -93,7 +93,7 @@
                     </tr>
                     <tr>
                         <td colspan="2" align="center">
-                            <button onclick="eliminarConfirmando(gi('delCodigo').value);">Eliminar</button>
+                            <button onclick="delConfirm(gi('delCodigo').value);">Eliminar</button>
                         </td>
                     </tr>
                 </table>
@@ -107,6 +107,19 @@
                     <tr>
                         <td colspan="2" align="center">
                             <button onclick="editar();">Editar</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="divFormFind" style="display:none">
+                <table>
+                    <tr>
+                        <th>Codigo:</th>
+                        <td><input type="text" id="findCodigo"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <button onclick="find(gi('findCodigo').value);">Buscar</button>
                         </td>
                     </tr>
                 </table>
@@ -125,6 +138,7 @@
 <script src="./inventario.js"></script>
 <script language="JavaScript" >
 
+
     //Crea Inventario
     let inventario = new Inventory();
     
@@ -135,7 +149,7 @@
     }
 
     //Obtiene datos y agrega el producto al inventario
-    function agregarProducto() {
+    function addForm() {
         gi("divFormAdd").style.display="inline";
         //style.display = Cambia el estilo del elemento
         //inline = Mostrar
@@ -143,15 +157,72 @@
         //focus = poner puntero automaticamente en un cuadro
         gi("divFormDel").style.display="none";
         gi("divFormEdit").style.display="none";
+        gi("divFormFind").style.display="none";
     }
-    function convert() {
+    function add() {
         prod = new Product();
         prod.code = gi("txtCodigo").value;
         prod.name = gi("txtNombre").value;
         prod.amount = gi("txtCantidad").value;
         prod.cost = gi("txtCosto").value;
-        inventario.guardar(prod);
+        inventario.add(prod);
         clearForm();
+    }
+
+    //Elimina un producto con el codigo
+    function delForm() {
+        gi("divFormDel").style.display="inline";
+        gi("delCodigo").focus();
+        gi("divFormAdd").style.display="none";
+        gi("divFormEdit").style.display="none";
+        gi("divFormFind").style.display="none";
+    }
+    function delConfirm(codigo) {
+        if(confirm("Esta seguro que quiere quitar este producto")) {
+            del(codigo);
+            clearForm();
+        }
+    }
+    function del(codigo) {
+        code = codigo;
+        productos = inventario.listar();
+        for(let i=0;i<productos.length;i++) {
+            producto = productos[i];
+            if(code == producto.code) {
+                inventario.del(i);
+            }
+        }
+    }
+
+    //Buscar un producto
+    function findForm() {
+        gi("divFormFind").style.display="inline";
+        gi("findCodigo").focus();
+        gi("divFormAdd").style.display="none";
+        gi("divFormEdit").style.display="none";
+        gi("divFormDel").style.display="none";
+    }
+    function find(codigo) {
+        code = codigo;
+        productos = inventario.listar();
+        for(let i=0;i<productos.length;i++) {
+            producto = productos[i];
+            if(code == producto.code) {
+                datos = inventario.find(i);
+                if(confirm(`Se encontro este articulo:
+                ${datos.info()}`)) {
+                    clearForm();
+                }
+            }
+        }
+    }
+
+    function editarProducto() {
+        gi("divFormEdit").style.display="inline";
+        gi("editCodigo").focus();
+        gi("divFormAdd").style.display="none";
+        gi("divFormDel").style.display="none";
+        gi("divFormFind").style.display="none";
     }
 
     //Mostrar los productos
@@ -168,37 +239,6 @@
         }
     }
 
-    //Elimina un producto con el codigo
-    function eliminarProducto() {
-        gi("divFormDel").style.display="inline";
-        gi("delCodigo").focus();
-        gi("divFormAdd").style.display="none";
-        gi("divFormEdit").style.display="none";
-    }
-    function eliminarConfirmando(codigo) {
-        if(confirm("Esta seguro que quiere quitar este producto")) {
-            eliminarCode(codigo);
-            clearForm();
-        }
-    }
-    function eliminarCode(codigo) {
-        code = codigo;
-        productos = inventario.listar();
-        for(let i=0;i<productos.length;i++) {
-            producto = productos[i];
-            if(code == producto.code) {
-                inventario.eliminar(i);
-            }
-        }
-    }
-
-    function editarProducto() {
-        gi("divFormEdit").style.display="inline";
-        gi("editCodigo").focus();
-        gi("divFormAdd").style.display="none";
-        gi("divFormDel").style.display="none";
-    }
-
     function clearForm() {
         //gi("divFormAdd").style.display="none";
         gi("txtCodigo").value = "";
@@ -208,6 +248,7 @@
         //none = Ocultar
         gi("delCodigo").value = "";
         gi("editCodigo").value = "";
+        gi("findCodigo").value = "";
     }
     </script>
 </html>
