@@ -45,5 +45,57 @@ function comun(vector1, vector2) {
     return comunes;
 }
 
+/*
+Mostrar todas las parejas de numeros amigos menores a 1000
+  una pareja de numeros (num1,num2) se consideran amigos
+  si se trata de numeros diferentes en donde ademas
+  la suma de divisores del primer numero menores a el suman el segundo
+  y la suma de divisores del segundo numero menores a el, suman el primero
+  
+  59,96
+  502,204
+  985,365
+*/
+function numAmigos(limite) {
+    let amigos= [];
+    for(num1=0;num1<=limite;num1++) {
+        for(num2=0;num2<=limite;num2++) {
+            if(num1==num2) {
+                num2++;
+            }
+
+            let suma=0;
+            for(i=1;i<num1;i++) {
+                if(num1%i==0) {
+                    suma+=i;
+                }
+            }
+
+            if(suma==num2) {
+                suma=0;
+                for(i=1;i<num2;i++) {
+                    if(num2%i==0) {
+                        suma+=i;
+                    }
+                }
+                if(suma==num1) {
+                    if(amigos.length == 0) {
+                        amigos.push(`${num1}-${num2}`);
+                    } else {
+                        for(i=0;i<amigos.length;i++) {
+                            if(amigos[i]!=`${num2}-${num1}`) {
+                                amigos.push(`${num1}-${num2}`);
+                            }
+                        }
+                    }
+                }
+            }
+        }        
+    }
+    return amigos;
+}
+
+console.log(numAmigos(1000));
+
 
 
