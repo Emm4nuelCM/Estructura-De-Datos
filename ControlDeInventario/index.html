@@ -185,13 +185,10 @@
         }
     }
     function del(codigo) {
-        code = codigo;
-        productos = inventario.listar();
-        for(let i=0;i<productos.length;i++) {
-            producto = productos[i];
-            if(code == producto.code) {
-                inventario.del(i);
-            }
+        if(inventario.del(codigo) == false) {
+            confirm("Producto Inexistente");
+        } else {
+            confirm("Se ha eliminado en producto");
         }
     }
 
