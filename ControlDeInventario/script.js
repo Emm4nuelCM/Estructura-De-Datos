@@ -19,27 +19,22 @@ class Inventory{
 
     add(producto) {
         this.list.push(producto);
-        console.log(producto.code);
     }
     
     del(codigo) {
-        let initSize = this.list.length;
         for(let i=0;i<this.list.length;i++) {
             if(codigo == this.list[i].code) {
                 if(this.list.length == 1) {
                     this.list = [];
+                    return true;
                 } else {
                     for(let j=i;j<this.list.length;j++) {
                         this.list[j]=this.list[j+1];
                     }
+                    this.list.length = this.list.length - 1;
+                    return true;
                 }
             }
-        }
-        if(initSize = this.list.length) {
-            return false;
-        } else {
-            //Elimina la ultima posicion del vector
-        this.list.length = this.list.length - 1;
         }
     }
 
@@ -53,10 +48,9 @@ class Inventory{
     }
     
     edit(codigo) {
-        let code = codigo;
         for(let i=0;i<this.list.length;i++) {
             let product = this.list[i];
-            if(code == product.code) {
+            if(codigo == product.code) {
                 return product;
             } else {
                 return null;

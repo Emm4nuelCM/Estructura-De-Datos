@@ -185,10 +185,10 @@
         }
     }
     function del(codigo) {
-        if(inventario.del(codigo) == false) {
-            confirm("Producto Inexistente");
-        } else {
+        if(inventario.del(codigo) == true) {
             confirm("Se ha eliminado en producto");
+        } else {
+            confirm("Producto Inexistente");
         }
     }
 
