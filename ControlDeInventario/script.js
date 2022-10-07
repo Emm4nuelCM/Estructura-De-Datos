@@ -55,12 +55,21 @@ class Inventory{
     }
 
     find(codigo) {
-        for(let i = 0; i < this.list.length; i++) {
-            if(codigo == this.list[i].code) {
-                return this.list[i];
+        let l = 0;
+        let r = this.list.length-1;
+        while(l<=r){
+            let m = Math.floor((l+r)/2);
+            if(codigo == this.list[m].code) {
+                return this.list[m];
+            }
+            if(codigo > this.list[m].code) {
+                l=m+1;
+            } else if(codigo < this.list[m].code) {
+                r=m-1;
             }
         }
         return null;
+
     }
     
     edit(codigo) {
