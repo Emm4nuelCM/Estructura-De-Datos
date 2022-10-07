@@ -233,11 +233,10 @@
         gi("todosLosProductos").innerHTML = "";
         let productos = inventario.listInvert();
         for(let i=0;i<productos.length;i++) {
-            let producto = productos[i];
             div = document.createElement("div");
             //div.setAttribute("class", "producto");
             div.innerHTML = 
-            producto.info();
+            productos[i].info();
             gi("todosLosProductos").appendChild(div);
         }
     }

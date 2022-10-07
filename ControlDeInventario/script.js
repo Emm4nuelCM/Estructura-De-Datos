@@ -9,12 +9,12 @@ class Inventory{
     }
 
     listInvert() {
-        for(let i=0;i<=(this.list.length-1)/2; i++) {
-            let aux = this.list[i];
-            this.list[i] = this.list[(this.list.length-1)-i];
-            this.list[(this.list.length-1)-i] = aux;
+        let listInvert = [];
+
+        for (let i = this.list.length - 1; i >= 0; i--) {
+            listInvert.push(this.list[i]);
         }
-        return this.list;
+        return listInvert;
     }
 
     add(producto) {
