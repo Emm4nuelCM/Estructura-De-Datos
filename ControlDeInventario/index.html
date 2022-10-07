@@ -162,7 +162,7 @@
     }
     function add() {
         prod = new Product();
-        prod.code = gi("txtCodigo").value;
+        prod.code = parseInt(gi("txtCodigo").value);
         prod.name = gi("txtNombre").value;
         prod.amount = gi("txtCantidad").value;
         prod.cost = gi("txtCosto").value;
