@@ -1,7 +1,7 @@
 
 class Inventory{
     constructor() {
-        this.list = new Array();
+        this.list = [];
     }
 
     listar() {
@@ -18,8 +18,24 @@ class Inventory{
     }
 
     add(producto) {
-        this.list.push(producto);
+        if(this.list.length == 0) {
+            this.list.push(producto);
+        } else {
+        for(let i=0;i<this.list.length;i++) {
+            if(producto.code < this.list[i].code) {
+                this.list.length = this.list.length+1;
+                for(let j=this.list.length;j>i;j--) {
+                    this.list[j-1] = this.list[j-2];
+                }
+                this.list[i] = producto;
+                return true;
+            }else if(i==this.list.length-1) {
+                this.list.push(producto);
+                return true;
+            }
+        }
     }
+}
     
     del(codigo) {
         for(let i=0;i<this.list.length;i++) {
