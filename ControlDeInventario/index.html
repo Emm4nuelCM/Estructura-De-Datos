@@ -185,9 +185,7 @@
         }
     }
     function del(codigo) {
-        if(inventario.del(codigo) == true) {
-            confirm("Se ha eliminado en producto");
-        } else {
+        if(inventario.del(codigo) != true) {
             confirm("Producto Inexistente");
         }
     }
