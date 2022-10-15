@@ -1,0 +1,272 @@
+<script>
+//fieldset = cuadro o campo
+//legend = Nombre del campo
+
+//h1-h5 = Tamaño texto
+
+//div = Crea secciones o agrupa contenidos
+//id = Nombra al elemento y lo diferencia de los demas
+
+//table = Contenedor principal
+//tr = Filas contenedoras de celdas
+//td = Representando las celdas
+//th = Celdas de encabezado
+//input = Formulario, recibe datos del usuario
+//type = Tipo de control a mostrar
+//style = Especifica informacion de estilo
+//colspan = Permite "fusionar" celdas consecutivas de una misma fila
+//align = Alinea los valores
+//button = Crea botones marcadores
+//onclick = Ejecuta una funcion especificada cuando el boton es clickeado
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Inventario</title>
+</head>
+<body style = "background-color: whitesmoke">
+<style>
+   
+    #todosLosProductos div{
+        float:left;
+        border:solid 2px green;
+        margin:3px;
+        width:auto;
+        height: auto;
+        padding:5px;
+    }
+
+    #divPagina{
+        width:80%;
+        margin:0 auto;
+        border: solid 1px black;
+        padding-left: 5px;
+        border-radius: 5px;
+    }
+</style>
+
+<body>
+    <div id="divPagina" align="center">
+        <div id = "divBAnner">
+        </div>
+        <div id = "divCentro">
+            <h1 align="center">Control de Inventario</h1>
+            <div id="Panel_Acciones">
+                <button onclick="addForm();">Agregar Producto</button>
+                <button onclick="delForm();">Eliminar Producto</button>
+                <button onclick="editForm();">Editar Producto</button>
+                <button onclick="show();">Listado</button>
+                <button onclick="showInvert();">Listado Inverso</button>
+                <button onclick="findForm();">Buscar</button>
+            </div>
+            <div id="divFormAdd" style="display:none;">
+                <table>
+                    <tr id="divCode">
+                        <th>Codigo:</th>
+                        <td><input type="text" id="txtCodigo"></td>
+                    </tr>
+                    <tr>
+                        <th>Nombre:</th>
+                        <td><input type="text" id="txtNombre"></td>
+                    </tr>
+                    <tr>
+                        <th>Cantidad:</th>
+                        <td><input type="text" id="txtCantidad"></td>
+                    </tr>
+                    <tr>
+                        <th>Costo:</th>
+                        <td><input type="text" id="txtCosto"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <button onclick="add();">Agregar</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="divFormDel" style="display:none">
+                <table>
+                    <tr>
+                        <th>Codigo:</th>
+                        <td><input type="text" id="delCodigo"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <button onclick="delConfirm(gi('delCodigo').value);">Eliminar</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="divFormEdit" style="display:none">
+                <table>
+                    <tr>
+                        <th>Codigo:</th>
+                        <td><input type="text" id="editCodigo"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <button onclick="edit(gi('editCodigo').value);">Editar</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="divFormFind" style="display:none">
+                <table>
+                    <tr>
+                        <th>Codigo:</th>
+                        <td><input type="text" id="findCodigo"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <button onclick="find(gi('findCodigo').value);">Buscar</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <fieldset>
+                    <legend>Productos Existentes</legend>
+                    <div id = "todosLosProductos"></div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="./script.js"></script>
+<script language="JavaScript" >
+
+
+    //Crea Inventario
+    let inventario = new Inventory();
+    
+    //Obtiene la id del atributo
+    function gi (id) {
+        return document.getElementById(id);
+        //Obtiene el elemento con el id dado
+    }
+
+    //Obtiene datos y agrega el producto al inventario
+    function addForm() {
+        gi("divFormAdd").style.display="inline";
+        //style.display = Cambia el estilo del elemento
+        //inline = Mostrar
+        gi("txtCodigo").focus();
+        //focus = poner puntero automaticamente en un cuadro
+        gi("divFormDel").style.display="none";
+        gi("divFormEdit").style.display="none";
+        gi("divFormFind").style.display="none";
+    }
+    function add() {
+        prod = new Product();
+        prod.code = parseInt(gi("txtCodigo").value);
+        prod.name = gi("txtNombre").value;
+        prod.amount = gi("txtCantidad").value;
+        prod.cost = gi("txtCosto").value;
+        inventario.add(prod);
+        clearForm();
+    }
+
+    //Elimina un producto con el codigo
+    function delForm() {
+        gi("divFormDel").style.display="inline";
+        gi("delCodigo").focus();
+        gi("divFormAdd").style.display="none";
+        gi("divFormEdit").style.display="none";
+        gi("divFormFind").style.display="none";
+    }
+    function delConfirm(codigo) {
+        if(confirm("Esta seguro que quiere quitar este producto")) {
+            del(codigo);
+            clearForm();
+        }
+    }
+    function del(codigo) {
+        if(inventario.del(codigo) != true) {
+            confirm("Producto Inexistente");
+        }
+    }
+
+    //EDITAR PRODUCTO
+    function editForm() {
+        gi("divFormEdit").style.display="inline";
+        gi("editCodigo").focus();
+        gi("divFormAdd").style.display="none";
+        gi("divFormDel").style.display="none";
+        gi("divFormFind").style.display="none";
+    }
+    function edit(codigo) {
+       product = inventario.edit(codigo);
+       if(product == null) {
+        confirm("No se encontro el articulo");
+       } else {
+            addForm(gi("editCodigo").value);
+            gi("txtCodigo").value = product.code;
+            gi("txtNombre").value = product.name;
+            gi("txtCantidad").value = product.amount;
+            gi("txtCosto").value = product.cost;
+            del(gi("editCodigo").value);
+       }
+    }
+
+    //Mostrar los productos
+    function show() {
+        gi("todosLosProductos").innerHTML = "";
+        let productos = inventario.listar();
+        for(let i=0;i<productos.length;i++) {
+            let producto = productos[i];
+            div = document.createElement("div");
+            //div.setAttribute("class", "producto");
+            div.innerHTML = 
+            producto.info();
+            gi("todosLosProductos").appendChild(div);
+        }
+    }
+
+    //Mostrar los  INVERTIDOS
+    function showInvert() {
+        gi("todosLosProductos").innerHTML = "";
+        let productos = inventario.listInvert();
+        for(let i=0;i<productos.length;i++) {
+            div = document.createElement("div");
+            //div.setAttribute("class", "producto");
+            div.innerHTML = 
+            productos[i].info();
+            gi("todosLosProductos").appendChild(div);
+        }
+    }
+
+    //Buscar un producto
+    function findForm() {
+        gi("divFormFind").style.display="inline";
+        gi("findCodigo").focus();
+        gi("divFormAdd").style.display="none";
+        gi("divFormEdit").style.display="none";
+        gi("divFormDel").style.display="none";
+    }
+    function find(codigo) {
+        product = inventario.find(codigo);
+        if(product == null) {
+            confirm("Producto no encontrado");
+        } else {
+            confirm(`Se encontro este producto:
+            ${product.info()}`);
+        }
+    }
+
+    function clearForm() {
+        //gi("divFormAdd").style.display="none";
+        gi("txtCodigo").value = "";
+        gi("txtNombre").value = "";
+        gi("txtCantidad").value = "";
+        gi("txtCosto").value = "";
+        //none = Ocultar
+        gi("delCodigo").value = "";
+        gi("editCodigo").value = "";
+        gi("findCodigo").value = "";
+    }
+    </script>
+</html>
