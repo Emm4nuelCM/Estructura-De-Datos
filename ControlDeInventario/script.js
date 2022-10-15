@@ -73,14 +73,7 @@ class Inventory{
     }
     
     edit(codigo) {
-        for(let i=0;i<this.list.length;i++) {
-            let product = this.list[i];
-            if(codigo == product.code) {
-                return product;
-            } else {
-                return null;
-            }
-        }
+         return this.find(codigo);
     }
 }
 
