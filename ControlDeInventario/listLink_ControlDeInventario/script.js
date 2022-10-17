@@ -59,22 +59,16 @@ class Inventory{
         }
     }
 
-    /*find(codigo) {
-        let l = 0;
-        let r = this.list.length-1;
-        while(l<=r){
-            let m = Math.floor((l+r)/2);
-            if(codigo == this.list[m].code) {
-                return this.list[m];
-            }
-            if(codigo > this.list[m].code) {
-                l=m+1;
-            } else if(codigo < this.list[m].code) {
-                r=m-1;
+    find(codigo) {
+        let nodo = this.listPrimero;
+        while(nodo!=null) {
+            if(codigo!=nodo.producto.code) {
+                nodo = nodo.next;
+            } else if(codigo == nodo.producto.code) {
+                return nodo.producto;
             }
         }
-        return null;
-    }*/
+    }
     
     /*edit(codigo) {
          return this.find(codigo);
