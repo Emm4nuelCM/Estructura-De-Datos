@@ -166,7 +166,7 @@
         prod.name = gi("txtNombre").value;
         prod.amount = gi("txtCantidad").value;
         prod.cost = gi("txtCosto").value;
-        inventario.add(prod);
+        inventario.add(new Nodo(prod));
         clearForm();
     }
 

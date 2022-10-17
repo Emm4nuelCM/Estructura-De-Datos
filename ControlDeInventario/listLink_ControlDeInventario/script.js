@@ -12,20 +12,20 @@ class Inventory{
     }
 
     listar() {
-        let list = "";
-        let int = this.primero;
+        let list = [];
+        let int = this.listPrimero;
         while (int!=null) {
-            list += int.numero + " ";
+            list.push(int.producto);
             int=int.next;
         }
-      return list;
+        return list;
     }
 
     listInvert() {
         let listInvert = [];
-
-        for (let i = this.list.length - 1; i >= 0; i--) {
-            listInvert.push(this.list[i]);
+        let list = this.listar();
+        for (let i = list.length - 1; i >= 0; i--) {
+            listInvert.push(list[i]);
         }
         return listInvert;
     }
@@ -41,7 +41,7 @@ class Inventory{
         }
     }
     
-    del(codigo) {
+    /*del(codigo) {
         for(let i=0;i<this.list.length;i++) {
             if(codigo == this.list[i].code) {
                 if(this.list.length == 1) {
@@ -56,9 +56,9 @@ class Inventory{
                 }
             }
         }
-    }
+    }*/
 
-    find(codigo) {
+    /*find(codigo) {
         let l = 0;
         let r = this.list.length-1;
         while(l<=r){
@@ -73,12 +73,11 @@ class Inventory{
             }
         }
         return null;
-
-    }
+    }*/
     
-    edit(codigo) {
+    /*edit(codigo) {
          return this.find(codigo);
-    }
+    }*/
 }
 
 class Product{
@@ -93,8 +92,3 @@ class Product{
         return `Codigo: ${this.code} Nombre: ${this.name} Cantidad: ${this.amount} Costo: ${this.cost}`
     }   
 }
-
-//Clase NODO agregada
-//Lista Contructor Agregado
-//lista agregar agregado
-//lista listar agregado

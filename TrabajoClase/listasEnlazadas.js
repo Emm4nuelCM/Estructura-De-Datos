@@ -30,24 +30,26 @@ class Nodo{
     }
     listar() {
       let list = "";
-      let int = this.primero.next;
+      let int = this.primero;
       while (int!=null) {
-        list = int.numero + " " + list;
+        list += int.numero + " ";
         int=int.next;
       }
       console.log(list);
     }
     
-    listarInverso(lista) {
-      if(lista == null) {
-        lista = this.primero;
+    listarInverso() {
+      let list = "";
+      let int = this.primero;
+      while (int!=null) {
+        list += int.numero + " ";
+        int=int.next;
       }
-      console.log(lista.numero);
-      if(lista.next != null) {
-        this.listarInverso(lista.next);
-      } return;
-    }
+      console.log(list);
+    
   }
+}
+  
   
   let datos=new Lista();
 
