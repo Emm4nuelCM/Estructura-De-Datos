@@ -41,22 +41,23 @@ class Inventory{
         }
     }
     
-    /*del(codigo) {
-        for(let i=0;i<this.list.length;i++) {
-            if(codigo == this.list[i].code) {
-                if(this.list.length == 1) {
-                    this.list = [];
-                    return true;
-                } else {
-                    for(let j=i;j<this.list.length;j++) {
-                        this.list[j]=this.list[j+1];
-                    }
-                    this.list.length = this.list.length - 1;
-                    return true;
-                }
+    del(codigo) {
+        let nodo = this.listPrimero;
+        let temp = null;
+        if(codigo == nodo.producto.code) {
+            this.listPrimero = nodo.next;
+            return true;
+        }
+        while(nodo!=null) {
+            if(codigo!=nodo.producto.code) {
+                temp = nodo;
+                nodo = nodo.next;
+            } else if(codigo == nodo.producto.code) {
+                temp.next=nodo.next;
+                return true;
             }
         }
-    }*/
+    }
 
     /*find(codigo) {
         let l = 0;
