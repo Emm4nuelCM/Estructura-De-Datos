@@ -32,7 +32,7 @@ class Inventory{
 
     add(nuevo, posicion) {
         if(posicion>=0) {
-            if (posicion==0) {
+            if (posicion==0 || this.listPrimero==null) {
                 nuevo.next=this.listPrimero;
                 this.listPrimero=nuevo;
             }
