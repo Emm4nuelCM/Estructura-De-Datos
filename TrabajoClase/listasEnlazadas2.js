@@ -5,7 +5,6 @@ class Nodo{
     }
   }
   
-   
   class Lista{
     constructor(){
       this.primero=null;
@@ -55,7 +54,17 @@ class Nodo{
       }
       return list;
     }
+
+    listarInverso() {
+      let list = "";
+      let int = this.primero;
+      while (int!=null) {
+        list = int.numero + " " + list;
+        int=int.next;
+      }
+      console.log(list);
   }
+}
   
   let datos=new Lista();
 

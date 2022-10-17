@@ -42,11 +42,10 @@ class Nodo{
       let list = "";
       let int = this.primero;
       while (int!=null) {
-        list += int.numero + " ";
+        list = int.numero + " " + list;
         int=int.next;
       }
       console.log(list);
-    
   }
 }
   
