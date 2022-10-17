@@ -31,6 +31,9 @@ class Inventory{
     }
 
     add(nuevo, posicion) {
+        if(posicion>300) {
+            posicion=300;
+        }
         if(posicion>=0) {
             if (posicion==0 || this.listPrimero==null) {
                 nuevo.next=this.listPrimero;
@@ -39,7 +42,13 @@ class Inventory{
             else{
                 let nodo = this.listPrimero;
                 for(let i=0;i<posicion-1;i++) {
-                    nodo=nodo.next;
+                    if(nodo.next!=null) {
+                        nodo=nodo.next;
+                    } else {
+                        let temp = nodo.next;
+                        nodo.next=nuevo;
+                        nuevo.next=temp;
+                    }
                 }
                 let temp = nodo.next;
                 nodo.next=nuevo;
