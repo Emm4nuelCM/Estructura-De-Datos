@@ -70,9 +70,9 @@ class Inventory{
         }
     }
     
-    /*edit(codigo) {
+    edit(codigo) {
          return this.find(codigo);
-    }*/
+    }
 }
 
 class Product{
