@@ -30,14 +30,30 @@ class Inventory{
         return listInvert;
     }
 
-    add(nuevo) {
-        if (this.listPrimero==null)
-        this.listPrimero=nuevo;
-      else{
-        let temp=this.listPrimero;
-        while (temp.next!=null)
-          temp=temp.next;
-          temp.next=nuevo;
+    add(nuevo, posicion) {
+        if(posicion>=0) {
+            if (posicion==0) {
+                nuevo.next=this.listPrimero;
+                this.listPrimero=nuevo;
+            }
+            else{
+                let nodo = this.listPrimero;
+                for(let i=0;i<posicion-1;i++) {
+                    nodo=nodo.next;
+                }
+                let temp = nodo.next;
+                nodo.next=nuevo;
+                nuevo.next=temp;
+            }
+        } else {
+            if (this.listPrimero==null)
+            this.listPrimero=nuevo;
+            else{
+                let temp=this.listPrimero;
+                while (temp.next!=null)
+                temp=temp.next;
+                temp.next=nuevo;
+            }
         }
     }
     

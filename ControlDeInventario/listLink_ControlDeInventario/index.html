@@ -67,6 +67,8 @@
                     <tr id="divCode">
                         <th>Codigo:</th>
                         <td><input type="text" id="txtCodigo"></td>
+                        <th>Posicion:</th>
+                        <td><input size="2" type="text" id="txtPosicion"></td>
                     </tr>
                     <tr>
                         <th>Nombre:</th>
@@ -166,7 +168,8 @@
         prod.name = gi("txtNombre").value;
         prod.amount = gi("txtCantidad").value;
         prod.cost = gi("txtCosto").value;
-        inventario.add(new Nodo(prod));
+        pos=parseInt(gi("txtPosicion").value);
+        inventario.add(new Nodo(prod),pos);
         clearForm();
     }
 
@@ -263,6 +266,7 @@
         gi("txtNombre").value = "";
         gi("txtCantidad").value = "";
         gi("txtCosto").value = "";
+        gi("txtPosicion").value = "";
         //none = Ocultar
         gi("delCodigo").value = "";
         gi("editCodigo").value = "";
