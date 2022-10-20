@@ -21,32 +21,6 @@ class Nodo{
         this.ultimo=nuevo;
       }
     }
-    /*
-    agregarInicio(nuevo){
-      if (this.primero==null)
-        this.primero=nuevo;
-      else{
-          nuevo.next = this.primero;
-          this.primero=nuevo;
-      }
-    }*/
-    
-    /*
-    extraerPrimero() {
-      let temp = this.primero;
-      this.primero=this.primero.next;
-      return temp;
-    }
-    extraerUltimo() {
-      let nodo = this.primero;
-      while(nodo.next.next != null) {
-        nodo = nodo.next;
-        if(nodo.next.next == null) {
-          let temp = nodo.next;
-          nodo.next = null;S
-          return temp;
-        }
-      }*/
 
     listar() {
       let list = "";
@@ -58,29 +32,20 @@ class Nodo{
       return list;
     }
 
-    listarInverso() {
-      let list = "";
-      let int = this.ultimo;
-      while (int!=null) {
-        list += int.numero + " ";
-        int=int.prev;
-      }
-      return list;
-    }
-
     invertir() {
-      let temp=this.ultimo;
-      let aux = temp.prev;
-      while(aux!=this.primero) {
-        aux.next=null;
-        aux.prev.next=temp;
-        temp.prev=aux.prev;
+      let temp=this.primero;
+      let aux=null;
+      while(temp) {
+        aux=temp.prev;
+        temp.prev=temp.next;
         temp.next=aux;
-        aux.prev=temp;
-        this.ultimo=aux;
+        temp=temp.prev;
+      }
+      if(aux) {
+        this.primero=aux.prev;
       }
     }
-}
+  }
   
   let datos=new ListaDoble();
 
@@ -99,18 +64,6 @@ class Nodo{
   num=new Nodo(7);
   datos.agregar(num);
   console.log(datos.listar());
-  console.log(datos.listarInverso());
-
-  console.log(datos.invertir());
+ 
+  datos.invertir();
   console.log(datos.listar());
-
-  
-
-  /*
-  let first = datos.extraerPrimero();
-  console.log(first.numero);
-  console.log(datos.listar());
-
-  let last = datos.extraerUltimo();
-  console.log(last.numero);
-  console.log(datos.listar());*/
