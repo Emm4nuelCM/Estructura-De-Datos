@@ -64,17 +64,16 @@ class Inventory{
 
     del(codigo) {
         let nodo = this.listPrimero;
-        let temp = null;
         if(codigo == nodo.producto.code) {
             this.listPrimero = nodo.next;
             return true;
         }
         while(nodo!=null) {
             if(codigo!=nodo.producto.code) {
-                temp = nodo;
                 nodo = nodo.next;
             } else if(codigo == nodo.producto.code) {
-                temp.next=nodo.next;
+                nodo.prev.next=nodo.next;
+                nodo.next.prev=nodo.prev;
                 return true;
             }
         }
