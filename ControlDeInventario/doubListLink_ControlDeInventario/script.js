@@ -27,7 +27,7 @@ class Inventory{
         let listInvert = [];
         let int = this.listUltimo;
         while (int!=null) {
-            list.push(int.producto);
+            listInvert.push(int.producto);
             int=int.prev;
         }
         return listInvert;
