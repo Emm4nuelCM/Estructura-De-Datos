@@ -1,4 +1,4 @@
-class Nodo {
+class Nodo{
     constructor(texto) {
         this.text=texto;
         this.next=null;
@@ -13,10 +13,8 @@ class Lista{
         if(this.primero==null) {
             this.primero=nuevo;
         } else {
-            let temp=this.primero;
-            while(temp.next!=null) {
-                temp=temp.next;
-            } temp.next=nuevo;
+            nuevo.next=this.primero;
+            this.primero=nuevo;
         }
     }
 
@@ -65,7 +63,7 @@ class Lista{
         }
     }*/
 
-    eliminarDatoUltimo(dato) {
+    eliminarDeAtras(dato) {
         let temp=this.primero;
         let aux=null;
         let int=null;
@@ -93,22 +91,21 @@ class Lista{
     }
 }
 
-let lista=new Lista();
+let lista = new Lista();
 
-let nodo=new Nodo("Hola");
-lista.agregar(nodo);
-nodo=new Nodo("Mundo!");
-lista.agregar(nodo);
-nodo=new Nodo("Emmanuel");
-lista.agregar(nodo);
-nodo=new Nodo("Camacho");
-lista.agregar(nodo);
-nodo=new Nodo("Moctezuma");
-lista.agregar(nodo);
-nodo=new Nodo("3H");
-lista.agregar(nodo);
+lista.agregar(new Nodo("Hola"));
+lista.agregar(new Nodo("Mundo!"));
+lista.agregar(new Nodo("esta"));
+lista.agregar(new Nodo("es"));
+lista.agregar(new Nodo("una"));
+lista.agregar(new Nodo("prueba"));
+lista.agregar(new Nodo("es"));
+lista.agregar(new Nodo("simple"));
 
-lista.extraer(1);
-lista.eliminarDatoUltimo("Mundo!");
+lista.listar();
 
+lista.extraer(8);
+lista.listar();
+
+lista.eliminarDeAtras("es");
 lista.listar();
