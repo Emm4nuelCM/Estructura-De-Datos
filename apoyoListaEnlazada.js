@@ -24,7 +24,7 @@ class Lista{
         let lista="";
         let temp=this.primero;
         while(temp) {
-            lista+=temp.text+" ";
+            lista+=temp.text+", ";
             temp=temp.next;
         }
         console.log(lista);
@@ -35,7 +35,11 @@ class Lista{
         let aux=null;
         for(let i=1;i<=posicion;i++) {
             if(posicion==i) {
-                aux.next=temp.next;
+                if(posicion==1) {
+                    this.primero=this.primero.next;
+                } else {
+                    aux.next=temp.next;
+                }
                 return temp;
             } else {
                 if(i==posicion-1) {
@@ -48,6 +52,44 @@ class Lista{
             }
         }
         return null;
+    }
+
+    /*
+    intercambiar(dato1, dato2) {
+        let temp=this.primero;
+        let temp2=null;
+        let aux=null;
+        let aux2=null;
+        while(aux2.next==temp2) {
+            
+        }
+    }*/
+
+    eliminarDatoUltimo(dato) {
+        let temp=this.primero;
+        let aux=null;
+        let int=null;
+        while(temp.next!=null) {
+            if(this.primero.next==null && this.primero.text==dato) {
+                this.primero=null;
+                return;
+            } else if(this.primero.text==dato) {
+                this.primero=this.primero.next;
+                return;
+            }
+            if(temp.next!=null) {
+                aux=temp;
+                temp=temp.next;
+                if(temp.text==dato) {
+                    int=aux;
+                }
+            }
+        }
+        if(int==null) {
+            return;
+        } else {
+            int.next=int.next.next;
+        }
     }
 }
 
@@ -66,6 +108,7 @@ lista.agregar(nodo);
 nodo=new Nodo("3H");
 lista.agregar(nodo);
 
-lista.listar();
-console.log(lista.extraer(5));
+lista.extraer(1);
+lista.eliminarDatoUltimo("Mundo!");
+
 lista.listar();
