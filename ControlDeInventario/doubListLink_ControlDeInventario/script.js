@@ -33,48 +33,35 @@ class Inventory{
         return listInvert;
     }
 
-    add(nuevo, posicion) {
-        if(posicion>300) {
-            posicion=300;
+    add(nuevo) {
+        if (this.listPrimero==null) {
+            this.listPrimero=nuevo;
+            this.listUltimo=nuevo;
         }
-        if(posicion>=0) {
-            if (posicion==0 || this.listPrimero==null) {
-                nuevo.next=this.listPrimero;
-                this.listPrimero=nuevo;
-            }
-            else{
-                let nodo = this.listPrimero;
-                for(let i=0;i<posicion-1;i++) {
-                    if(nodo.next!=null) {
-                        nodo=nodo.next;
-                    } else {
-                        let temp = nodo.next;
-                        nodo.next=nuevo;
-                        nuevo.next=temp;
-                    }
-                }
-                let temp=nodo.next;
-                nodo.next=nuevo;
-                nuevo.prev=nodo;
+        else{
+            let temp=this.listPrimero;
+            if(this.listPrimero.producto.code>nuevo.producto.code) {
+                temp.prev=nuevo;
                 nuevo.next=temp;
-            }
-        } else {
-            if (this.listPrimero==null) {
                 this.listPrimero=nuevo;
-                this.listUltimo=nuevo;
+                return;
             }
-            else{
-                let temp=this.listPrimero;
-                while (temp.next!=null) {
-                    temp=temp.next;
+            while (temp.next!=null) {
+                temp=temp.next;
+                if(temp.producto.code>nuevo.producto.code) {
+                    nuevo.next=temp;
+                    nuevo.prev=temp.prev;
+                    temp.prev.next=nuevo;
+                    temp.prev=nuevo;
+                    return;
                 }
-                temp.next=nuevo;
-                nuevo.prev=temp;
-                this.listUltimo=nuevo;
             }
+            temp.next=nuevo;
+            nuevo.prev=temp;
+            this.listUltimo=nuevo;
         }
     }
-    
+
     del(codigo) {
         let nodo = this.listPrimero;
         let temp = null;

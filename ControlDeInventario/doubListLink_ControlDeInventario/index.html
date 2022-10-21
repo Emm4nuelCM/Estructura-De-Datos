@@ -67,8 +67,6 @@
                     <tr id="divCode">
                         <th>Codigo:</th>
                         <td><input type="text" id="txtCodigo"></td>
-                        <th>Posicion:</th>
-                        <td><input size="2" type="text" id="txtPosicion"></td>
                     </tr>
                     <tr>
                         <th>Nombre:</th>
@@ -168,8 +166,7 @@
         prod.name = gi("txtNombre").value;
         prod.amount = gi("txtCantidad").value;
         prod.cost = gi("txtCosto").value;
-        pos=parseInt(gi("txtPosicion").value);
-        inventario.add(new Nodo(prod),pos);
+        inventario.add(new Nodo(prod));
         clearForm();
     }
 
