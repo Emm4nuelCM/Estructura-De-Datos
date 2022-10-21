@@ -9,7 +9,7 @@ class Lista{
     constructor() {
         this.primero=null;
     }
-    agregar(nuevo) {
+    agregarInicio(nuevo) {
         if(this.primero==null) {
             this.primero=nuevo;
         } else {
@@ -52,16 +52,32 @@ class Lista{
         return null;
     }
 
-    /*
-    intercambiar(dato1, dato2) {
+    intercambiar(dato1, dato2) { //Error al elegir el primero valor
         let temp=this.primero;
-        let temp2=null;
-        let aux=null;
+        let aux=temp;
+        let temp2=this.primero;
         let aux2=null;
-        while(aux2.next==temp2) {
-            
+        let stop = false;;
+        while(stop==false) {
+            if(temp.text!=dato1) {
+                aux=temp;
+                temp=temp.next;
+            }
+            if(temp2.text!=dato2) {
+                aux2=temp2;
+                temp2=temp2.next;
+            }
+            if(temp.text==dato1 && temp2.text==dato2) {
+                stop=true;
+            }
         }
-    }*/
+        aux.next=temp2;
+        aux2.next=temp;
+        aux=temp.next;
+        aux2=temp2.next;
+        temp.next=aux2;
+        temp2.next=aux;
+    }
 
     eliminarDeAtras(dato) {
         let temp=this.primero;
@@ -93,14 +109,14 @@ class Lista{
 
 let lista = new Lista();
 
-lista.agregar(new Nodo("Hola"));
-lista.agregar(new Nodo("Mundo!"));
-lista.agregar(new Nodo("esta"));
-lista.agregar(new Nodo("es"));
-lista.agregar(new Nodo("una"));
-lista.agregar(new Nodo("prueba"));
-lista.agregar(new Nodo("es"));
-lista.agregar(new Nodo("simple"));
+lista.agregarInicio(new Nodo("Hola"));
+lista.agregarInicio(new Nodo("Mundo!"));
+lista.agregarInicio(new Nodo("esta"));
+lista.agregarInicio(new Nodo("es"));
+lista.agregarInicio(new Nodo("una"));
+lista.agregarInicio(new Nodo("prueba"));
+lista.agregarInicio(new Nodo("es"));
+lista.agregarInicio(new Nodo("simple"));
 
 lista.listar();
 
@@ -108,4 +124,7 @@ lista.extraer(8);
 lista.listar();
 
 lista.eliminarDeAtras("es");
+lista.listar();
+
+lista.intercambiar("es","esta");
 lista.listar();
