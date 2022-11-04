@@ -24,6 +24,9 @@ class ListaCirc{
   }
 
   extraerInicio(){
-    
+    let int = this.primero;
+    this.primero.ant.sig= this.primero.sig;
+    this.primero.sig.anterior=this.primero.ant;
+    return int;
   }
 }
