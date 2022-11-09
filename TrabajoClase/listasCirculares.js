@@ -16,6 +16,8 @@ class listaBases{
         if(this.primero==null) {
             this.primero=nuevo;
             this.ultimo=nuevo;
+            nuevo.next=nuevo;
+            nuevo.prev=nuevo;
         } else {
             nuevo.prev=this.ultimo;
             nuevo.next=this.primero;
@@ -45,18 +47,26 @@ class listaBases{
         if(find=="No bases encontradas") {
             console.log(find);
         } else {
-            find.next.prev=find.prev;
-            find.prev.next=find.next;
-            if(find==this.ultimo) {
+            if(find.next==find) {
+                this.primero=null;
+                this.ultimo=null;
+            } else {
+                find.next.prev=find.prev;
+                find.prev.next=find.next;
+                if(find==this.ultimo) {
                 this.ultimo=find.prev;
-            } else if(find==this.primero){
+                } else if(find==this.primero){
                 this.primero=find.next;
+                }
             }
         }
     }
     imprimir() {
         let list = "";
         let aux=this.primero;
+        if(aux==null) {
+            return "Sin Bases Agregadas";
+        }
         while(aux!=this.ultimo) {
             list+=`[${aux.nombre}-${aux.minutos} min], `;
             aux=aux.next;
@@ -89,6 +99,3 @@ console.log(bases.buscar("Parque Hidalgo"));
 
 bases.eliminar("Parque Hidalgo");
 console.log(bases.imprimir());
-
-//bases.eliminar("Parque Hidalgo");
-//console.log(bases.imprimir());
