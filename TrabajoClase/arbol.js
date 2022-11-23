@@ -33,19 +33,55 @@ class Arbol {
         }
     }
 
-    inOrder(nodo) {
-        if(!nodo) {
-            if(this.root==null) {
-                console.log(".");
-            } else {
-                this.inOrder(this.root)
-            }
-        } else {
-            if(nodo.left!=null) {
-                this.inOrder(nodo.izq);
-                console.log(nodo.numero);
-            } 
+    inOrder() {
+        let tmp = [];
+        function listIn(nodo, array) {
+            tmp = array;
+            if(!nodo) return;
+            listIn(nodo.left, tmp);
+            tmp.push(nodo.numero);
+            listIn(nodo.right, tmp);
         }
+        if(this.root==null) {
+            console.log(".");
+        } else {
+            listIn(this.root, tmp);
+        }
+        console.log(tmp);
+    }
+
+    preOrder() {
+        let tmp = [];
+        function listPre(nodo, array) {
+            tmp = array;
+            if(!nodo) return;
+            tmp.push(nodo.numero);
+            listPre(nodo.left, tmp);
+            listPre(nodo.right, tmp);
+        }
+        if(this.root==null) {
+            console.log(".");
+        } else {
+            listPre(this.root, tmp);
+        }
+        console.log(tmp);
+    }
+
+    postOrder() {
+        let tmp = [];
+        function listPost(nodo, array) {
+            tmp = array;
+            if(!nodo) return;
+            listPost(nodo.left, tmp);
+            listPost(nodo.right, tmp);
+            tmp.push(nodo.numero);
+        }
+        if(this.root==null) {
+            console.log(".");
+        } else {
+            listPost(this.root, tmp);
+        }
+        console.log(tmp);
     }
 }
 
@@ -56,4 +92,13 @@ nodo=new Nodo(4);
 arbol.add(nodo);
 nodo=new Nodo(6);
 arbol.add(nodo);
-console.log(arbol.root);
+nodo=new Nodo(7);
+arbol.add(nodo);
+nodo=new Nodo(3);
+arbol.add(nodo);
+nodo=new Nodo(8);
+arbol.add(nodo);
+
+arbol.inOrder();
+arbol.preOrder();
+arbol.postOrder();
