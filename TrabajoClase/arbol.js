@@ -34,12 +34,18 @@ class Arbol {
     }
 
     generate(string) {
-        let tmp=string.split(""), nodo;
+        let tmp=string.split("");
+        let root;
         for(let i=0; i<tmp.length; i++) {
-            nodo = new Nodo(tmp[i]);
-            tmp.push(nodo);
+            tmp[i]=new Nodo(tmp[i]);
+            root=tmp[i];
+            if(root.numero=="+" || root.numero=="-") {
+                root.left=tmp[i-1];
+                root.right=tmp[i+1];
+            }
         }
         console.log(tmp);
+        //3+5+6*7+5*4/2
     }
 
     inOrder() {
