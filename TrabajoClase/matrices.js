@@ -78,9 +78,23 @@ function infDiagonalSec(matriz) {
     console.log(tmp);
 }
 
+//INVERTIR SUPERIOR-INFERIOR DIAGONAL  //INVERTIR SUPERIOR-INFERIOR DIAGONAL  //INVERTIR SUPERIOR-INFERIOR DIAGONAL
+function invertirDiagonalPrinc(matriz) {
+    let tmp=1;
+    for(let i=0;i<matriz.length;i++) {
+        for(let j=tmp;j<matriz[i].length;j++) {
+            let tmp1=matriz[j][i];
+            matriz[j][i]=matriz[i][j];
+            matriz[i][j]=tmp1;
+        }
+        tmp++;
+    }
+    console.log(matriz);
+}
 //LLAMADA A LAS FUNCIONES  //LLAMADA A LAS FUNCIONES  //LLAMADA A LAS FUNCIONES
-diagonalPrin(matrizLetter);
-supDiagonalPrin(matrizLetter);
-infDiagonalPrin(matrizLetter);
-supDiagonalSec(matrizLetter);
-infDiagonalSec(matrizLetter);
+diagonalPrin(matrizNum);
+supDiagonalPrin(matrizNum);
+infDiagonalPrin(matrizNum);
+supDiagonalSec(matrizNum);
+infDiagonalSec(matrizNum);
+invertirDiagonalPrinc(matrizNum);
