@@ -33,6 +33,15 @@ class Arbol {
         }
     }
 
+    generate(string) {
+        let tmp=string.split(""), nodo;
+        for(let i=0; i<tmp.length; i++) {
+            nodo = new Nodo(tmp[i]);
+            tmp.push(nodo);
+        }
+        console.log(tmp);
+    }
+
     inOrder() {
         let tmp = [];
         function listIn(nodo, array) {
@@ -86,19 +95,4 @@ class Arbol {
 }
 
 let arbol = new Arbol();
-let nodo=new Nodo(5);
-arbol.add(nodo);
-nodo=new Nodo(4);
-arbol.add(nodo);
-nodo=new Nodo(6);
-arbol.add(nodo);
-nodo=new Nodo(7);
-arbol.add(nodo);
-nodo=new Nodo(3);
-arbol.add(nodo);
-nodo=new Nodo(8);
-arbol.add(nodo);
-
-arbol.inOrder();
-arbol.preOrder();
-arbol.postOrder();
+arbol.generate("3+5+6*7+5*4/2");
