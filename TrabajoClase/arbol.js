@@ -20,6 +20,28 @@ class Arbol {
         this.root=null;
     }
 
+    toList(string, startEnd) {
+        let tmp=string.split(""), list=null, listLast=null;
+        while(tmp.length != 0) {
+            if(list==null) {
+                list=new NodoLista(new Nodo(tmp[0]));
+                listLast=list;
+            } else {
+                let nodo=new NodoLista(new Nodo(tmp[0]));
+                listLast.next=nodo;
+                nodo.prev=listLast;
+                listLast=nodo;
+            }
+            tmp.shift();
+        }
+    
+        if(startEnd) {
+            return listLast;
+        } else {
+            return list;
+        }
+    }
+
     generate(string) {
         function create(loop) {
             let val1, val2;
@@ -31,7 +53,7 @@ class Arbol {
                 val2="-";
             }
             let i=list;
-            while(i!=null) {
+            while(i) {
                 let actual=i.nodo;
                 if(actual.numero==val1 || actual.numero==val2) {
                 actual.left=i.prev.nodo;
@@ -56,23 +78,73 @@ class Arbol {
                 create("change");
             }
         }
-
-        let tmp=string.split(""), list=null, listLast=null;
-        while(tmp.length != 0) {
-            if(list==null) {
-                list=new NodoLista(new Nodo(tmp[0]));
-                listLast=list;
-            } else {
-                let nodo=new NodoLista(new Nodo(tmp[0]));
-                listLast.next=nodo;
-                nodo.prev=listLast;
-                listLast=listLast.next;
-            }
-            tmp.shift();
-        }
+        let list=this.toList(string);
         create();
         this.root=list.nodo;
         list=null;
+    }
+
+    resolve(string) {
+        let list=this.toList(string, "true"), tmp=[];
+        if(list.prev) {
+            while(list) {
+                switch(list.nodo.numero) {
+                    case "*":
+                        tmp[tmp.length-2]=parseInt(tmp[tmp.length-1])*parseInt(tmp[tmp.length-2]);
+                        tmp.pop();
+                        list=list.prev;
+                        break;
+                    case "/":
+                        tmp[tmp.length-2]=parseInt(tmp[tmp.length-1])/parseInt(tmp[tmp.length-2]);
+                        tmp.pop();
+                        list=list.prev;
+                        break;
+                    case "+":
+                        tmp[tmp.length-2]=parseInt(tmp[tmp.length-1])+parseInt(tmp[tmp.length-2]);
+                        tmp.pop();
+                        list=list.prev;
+                        break;
+                    case "-":
+                        tmp[tmp.length-2]=parseInt(tmp[tmp.length-1])-parseInt(tmp[tmp.length-2]);
+                        tmp.pop();
+                        list=list.prev;
+                        break;
+                    default :
+                    tmp.push(list.nodo.numero);
+                    list=list.prev;
+                }
+            }
+        } else {
+            while(list) {
+                switch(list.nodo.numero) {
+                    case "*":
+                        tmp[tmp.length-2]=parseInt(tmp[tmp.length-2])*parseInt(tmp[tmp.length-1]);
+                        tmp.pop();
+                        list=list.next;
+                        break;
+                    case "/":
+                        tmp[tmp.length-2]=parseInt(tmp[tmp.length-2])/parseInt(tmp[tmp.length-1]);
+                        tmp.pop();
+                        list=list.next;
+                        break;
+                    case "+":
+                        tmp[tmp.length-2]=parseInt(tmp[tmp.length-2])+parseInt(tmp[tmp.length-1]);
+                        tmp.pop();
+                        list=list.next;
+                        break;
+                    case "-":
+                        tmp[tmp.length-2]=parseInt(tmp[tmp.length-2])-parseInt(tmp[tmp.length-1]);
+                        tmp.pop();
+                        list=list.next;
+                        break;
+                    default :
+                    tmp.push(list.nodo.numero);
+                    list=list.next;
+                }
+                console.log(tmp);
+            }
+        }
+        console.log(`Resultado: ${tmp[0]}`);
     }
 
     order(mode) {
@@ -111,15 +183,15 @@ class Arbol {
             option="POSTORDER"
         }
         console.log(`${option}: ${tmp}`);
+        return tmp;
     }
 }
 
 //LLAMADA A LAS FUNCIONES  //LLAMADA A LAS FUNCIONES  //LLAMADA A LAS FUNCIONES
 let arbol = new Arbol();
 arbol.generate("3+5+6*7+5*4/2");
-arbol.order("in");
-arbol.order("pre");
-arbol.order("post");
+arbol.resolve(arbol.order("pre"));
+arbol.resolve(arbol.order("post"));
 
 
 //DEPURADOR
