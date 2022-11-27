@@ -21,35 +21,21 @@ class Arbol {
     }
 
     generate(string) {
-        function signosPrim() {
+        function create(loop) {
+            let val1, val2;
+            if(!loop) {
+                val1="*";
+                val2="/";
+            } else {
+                val1="+";
+                val2="-";
+            }
             let i=list;
             while(i!=null) {
                 let actual=i.nodo;
-                if(actual.numero=="*" || actual.numero=="/") {
+                if(actual.numero==val1 || actual.numero==val2) {
                 actual.left=i.prev.nodo;
                 actual.right=i.next.nodo;
-                    if(i.prev.prev!=null) {
-                        i.prev.prev.next=i;
-                        i.prev=i.prev.prev;
-                    }
-
-                    if(i.next.next!=null) {
-                        i.next.next.prev=i;
-                        i.next=i.next.next;
-                    } else {
-                        i.next=null;
-                    }
-                }
-                i=i.next;
-            }
-        }
-        function signosSec() {
-            let i=list;
-            while(i!=null) {
-                let actual=i.nodo;
-                if(actual.numero=="+" || actual.numero=="-") {
-                    actual.left=i.prev.nodo;
-                    actual.right=i.next.nodo;
                     if(i.prev.prev!=null) {
                         i.prev.prev.next=i;
                         i.prev=i.prev.prev;
@@ -66,6 +52,9 @@ class Arbol {
                 }
                 i=i.next;
             }
+            if(!loop) {
+                create("change");
+            }
         }
 
         let tmp=string.split(""), list=null, listLast=null;
@@ -81,17 +70,13 @@ class Arbol {
             }
             tmp.shift();
         }
-        signosPrim();
-        signosSec();
+        create();
         this.root=list.nodo;
         list=null;
-        this.inOrder();
-        this.preOrder();
-        this.postOrder();
     }
 
-    inOrder() {
-        let tmp = "";
+    order(mode) {
+        let tmp = "", option="";
         function listIn(nodo, list) {
             tmp = list;
             if(!nodo) return;
@@ -99,16 +84,6 @@ class Arbol {
             tmp+=nodo.numero;
             listIn(nodo.right, tmp);
         }
-        if(this.root==null) {
-            console.log(".");
-        } else {
-            listIn(this.root, tmp);
-        }
-        console.log(`INORDER: ${tmp}`);
-    }
-
-    preOrder() {
-        let tmp = "";
         function listPre(nodo, list) {
             tmp = list;
             if(!nodo) return;
@@ -116,16 +91,6 @@ class Arbol {
             listPre(nodo.left, tmp);
             listPre(nodo.right, tmp);
         }
-        if(this.root==null) {
-            console.log(".");
-        } else {
-            listPre(this.root, tmp);
-        }
-        console.log(`PREORDER: ${tmp}`);
-    }
-
-    postOrder() {
-        let tmp = "";
         function listPost(nodo, list) {
             tmp = list;
             if(!nodo) return;
@@ -135,16 +100,26 @@ class Arbol {
         }
         if(this.root==null) {
             console.log(".");
-        } else {
+        } else if(mode=="in") {
+            listIn(this.root, tmp);
+            option="INORDER";
+        } else if(mode=="pre") {
+            listPre(this.root, tmp);
+            option="PREORDER";
+        } else if(mode=="post") {
             listPost(this.root, tmp);
+            option="POSTORDER"
         }
-        console.log(`POSTORDER: ${tmp}`);
+        console.log(`${option}: ${tmp}`);
     }
 }
 
 //LLAMADA A LAS FUNCIONES  //LLAMADA A LAS FUNCIONES  //LLAMADA A LAS FUNCIONES
 let arbol = new Arbol();
 arbol.generate("3+5+6*7+5*4/2");
+arbol.order("in");
+arbol.order("pre");
+arbol.order("post");
 
 
 //DEPURADOR
